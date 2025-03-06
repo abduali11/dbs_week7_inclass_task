@@ -2,78 +2,44 @@ package model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "students")
 public class Student {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
     private String email;
-    private String rank;
-    private LocalDate joinDate;
+    private AikidoRank rank;
+    private LocalDate createdAt;
 
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-    @Transient
-    private int membershipDuration;
-
-    @ManyToMany
-    @JoinTable(
-            name = "training_session_students", // This is the join table
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "training_session_id")
-    )
+    @ManyToMany(mappedBy = "students")
     private List<TrainingSession> trainingSessions;
 
+    // Constructors, Getters, and Setters
     public Student() {}
 
-    public Student(String name, String email, String rank, LocalDate joinDate) {
+    public Student(String name, String email, AikidoRank rank, LocalDate createdAt) {
         this.name = name;
         this.email = email;
         this.rank = rank;
-        this.joinDate = joinDate;
+        this.createdAt = createdAt;
     }
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = createdAt;
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PostLoad
-    protected void calculateMembershipDuration() {
-        this.membershipDuration = LocalDate.now().getYear() - joinDate.getYear();
-    }
-
-    // Getters and Setters
+    // Getters and setters for all fields
     public Long getId() { return id; }
     public String getName() { return name; }
     public String getEmail() { return email; }
-    public String getRank() { return rank; }
-    public LocalDate getJoinDate() { return joinDate; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public int getMembershipDuration() { return membershipDuration; }
+    public AikidoRank getRank() { return rank; }
+    public LocalDate getCreatedAt() { return createdAt; }
     public List<TrainingSession> getTrainingSessions() { return trainingSessions; }
 
     public void setName(String name) { this.name = name; }
     public void setEmail(String email) { this.email = email; }
-    public void setRank(String rank) { this.rank = rank; }
-    public void setJoinDate(LocalDate joinDate) { this.joinDate = joinDate; }
+    public void setRank(AikidoRank rank) { this.rank = rank; }
+    public void setCreatedAt(LocalDate createdAt) { this.createdAt = createdAt; }
     public void setTrainingSessions(List<TrainingSession> trainingSessions) { this.trainingSessions = trainingSessions; }
 }

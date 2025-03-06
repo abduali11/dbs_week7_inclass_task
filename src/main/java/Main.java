@@ -1,8 +1,8 @@
-
 import dao.StudentDAO;
 import dao.InstructorDAO;
 import model.Student;
 import model.Instructor;
+import model.AikidoRank;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -23,8 +23,8 @@ public class Main {
         InstructorDAO instructorDAO = new InstructorDAO(em);
 
         // Add sample students
-        Student student1 = new Student("John Doe", "john@example.com", "White Belt", LocalDate.now());
-        Student student2 = new Student("Jane Smith", "jane@example.com", "Yellow Belt", LocalDate.now());
+        Student student1 = new Student("John Doe", "john@example.com", AikidoRank.WHITE_BELT, LocalDate.now());
+        Student student2 = new Student("Jane Smith", "jane@example.com", AikidoRank.YELLOW_BELT, LocalDate.now());
 
         // Save students using the DAO (no need to call em.persist directly)
         studentDAO.save(student1);
@@ -41,9 +41,8 @@ public class Main {
         List<Student> students = studentDAO.findAll();
         System.out.println("Students:");
         students.forEach(s -> {
-            System.out.println(s.getName() + " - " + s.getRank());
+            System.out.println(s.getName() + " - " + s.getRank().getDescription());
             System.out.println("Created At: " + s.getCreatedAt());
-            System.out.println("Membership Duration: " + s.getMembershipDuration() + " years");
         });
 
         // Fetch and print instructors

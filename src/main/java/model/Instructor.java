@@ -14,9 +14,10 @@ public class Instructor {
     private String specialization;
     private int experienceYears;
 
-    @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "instructor")
     private List<TrainingSession> trainingSessions;
 
+    // Constructors, Getters, and Setters
     public Instructor() {}
 
     public Instructor(String name, String specialization, int experienceYears) {
@@ -25,13 +26,15 @@ public class Instructor {
         this.experienceYears = experienceYears;
     }
 
-    public boolean getName() {
-        return name != null;
-    }
+    // Getters and setters for all fields
+    public Long getId() { return id; }
+    public String getName() { return name; }
+    public String getSpecialization() { return specialization; }
+    public int getExperienceYears() { return experienceYears; }
+    public List<TrainingSession> getTrainingSessions() { return trainingSessions; }
 
-    public Object getSpecialization() {
-        return specialization;
-    }
-
-    // Getters and Setters
+    public void setName(String name) { this.name = name; }
+    public void setSpecialization(String specialization) { this.specialization = specialization; }
+    public void setExperienceYears(int experienceYears) { this.experienceYears = experienceYears; }
+    public void setTrainingSessions(List<TrainingSession> trainingSessions) { this.trainingSessions = trainingSessions; }
 }
